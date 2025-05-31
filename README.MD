@@ -2,6 +2,41 @@
 
 ## k3s setup
 
+###install initial k3s control plane:
+```
+curl -sfL https://get.k3s.io | sh -
+```
+###Get the node-token 
+```
+sudo cat /var/lib/rancher/k3s/server/node-token
+```
+###To add additional control plane nodes, run:
+```
+curl -sfL https://get.k3s.io | \
+  K3S_URL=https://<existing-server-ip>:6443 \
+  K3S_TOKEN=<node-token> \
+  INSTALL_K3S_EXEC="server" \
+  sh -
+
+```
+###To add worker nodes, run:
+```
+curl -sfL https://get.k3s.io | \
+  K3S_URL=https://<server-ip>:6443 \
+  K3S_TOKEN=<node-token> \
+  sh -
+```
+
+*optional but recommended*
+install kubectl on your pc
+
+Run the following on a k3s node
+```
+sudo cat /etc/rancher/k3s/k3s.yaml
+```
+
+create a kubeconfig file and copy the contents of /etc/rancher/k3s/k3s.yaml to it, changing the server address to that of a control plane,
+
 ## set secrets for bitwarden
 
 ```
