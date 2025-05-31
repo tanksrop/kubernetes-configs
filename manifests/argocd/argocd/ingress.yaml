@@ -16,4 +16,4 @@ spec:
           service:
             name: argocd
             port:
-              number: 80
+              number: 443
