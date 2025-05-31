@@ -31,6 +31,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: transmission
+              key: username
+        - name: OPENVPN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: transmission
               key: password
         volumeMounts:
         - name: storage
