@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: lscr.io/linuxserver/jellyfin:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/London"
+            - name: JELLYFIN_PublishedServerUrl
+              value: "http://192.168.0.17"  # Optional - Adjust this URL for your local network
+          ports:
+            - containerPort: 8096
+            - containerPort: 8920
+          volumeMounts:
+            - name: storage
+              mountPath: /media
+              subPath: media
+            - name: storage
+              mountPath: /config
+              subPath: jellyfin/config
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2048Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs

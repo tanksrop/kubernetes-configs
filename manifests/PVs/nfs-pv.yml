@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: shared-nfs-pv
+spec:
+  capacity:
+    storage: 10Ti
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany  # This allows the PV to be shared across multiple pods and namespaces
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-client
+  nfs:
+    path: /mnt/Main/Kubernetes/k8s-nfs  # Path to your NFS share
+    server: 192.168.0.81  # NFS server IP

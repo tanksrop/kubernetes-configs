@@ -1,0 +1,53 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - image: lscr.io/linuxserver/radarr:latest
+        name: radarr
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/London"
+        volumeMounts:
+        - name: storage
+          mountPath: /media
+          subPath: media
+        - name: storage
+          mountPath: /config
+          subPath: radarr/config
+        - name: storage
+          mountPath: /data
+          subPath: transmission/downloads
+        ports:
+        - containerPort: 7878
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2048Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+      - image: haugene/transmission-openvpn:5.3.1
+        name: transmission
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        envFrom:
+        - configMapRef:
+            name: transmission
+        env:
+        - name: OPENVPN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: transmission
+              key: password
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+          subPath: transmission/downloads
+        ports:
+        - containerPort: 9091
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1024Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 1m
+            memory: 64Mi
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs

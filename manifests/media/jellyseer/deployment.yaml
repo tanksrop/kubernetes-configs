@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: jellyseerr
+  labels:
+    app: jellyseerr
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyseerr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jellyseerr
+    spec:
+      containers:
+      - image: fallenbagel/jellyseerr:2.5.2
+        name: jellyseerr
+        env:
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: TZ
+          value: "Europe/London"
+        volumeMounts:
+        - name: storage
+          mountPath: /app/config
+          subPath: jellyseerr/config
+        ports:
+        - containerPort: 5055
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 10m
+            memory: 128Mi
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs

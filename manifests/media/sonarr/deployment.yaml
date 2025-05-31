@@ -1,0 +1,53 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    app: sonarr
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - image: lscr.io/linuxserver/sonarr:latest
+        name: sonarr
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/London"
+        volumeMounts:
+        - name: storage
+          mountPath: /media
+          subPath: media
+        - name: storage
+          mountPath: /config
+          subPath: sonarr/config
+        - name: storage
+          mountPath: /data
+          subPath: transmission/downloads
+        ports:
+        - containerPort: 7878
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2048Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs
