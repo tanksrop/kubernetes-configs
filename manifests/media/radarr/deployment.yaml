@@ -27,6 +27,16 @@ spec:
           value: "1000"
         - name: TZ
           value: "Europe/London"
+        - name: POSTGRES_HOST
+          value: "192.168.0.81"        
+        - name: POSTGRES_PORT
+          value: "5432"                       
+        - name: POSTGRES_USER
+          value: "radarr_user"                
+        - name: POSTGRES_PASSWORD
+          value: "radarr"              
+        - name: POSTGRES_DB
+          value: "radarr_db"                  
         volumeMounts:
         - name: storage
           mountPath: /media
