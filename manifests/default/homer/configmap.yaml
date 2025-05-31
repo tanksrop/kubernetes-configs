@@ -136,3 +136,11 @@ data:
             subtitle: "Torrent Indexer"
             tag: "app"
             url: "http://prowlarr.k8s.tanksrop.xyz"
+      - name: "Management"
+        icon: "fas fa-cloud"
+        items:
+          - name: "ArgoCD"
+            logo: "https://raw.githubusercontent.com/NX211/homer-icons/refs/heads/master/png/argocd.png"
+            subtitle: "Git/Ops"
+            tag: "app"
+            url: "https://192.168.0.235:30080"
