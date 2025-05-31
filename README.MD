@@ -2,15 +2,15 @@
 
 ## k3s setup
 
-###install initial k3s control plane:
+install initial k3s control plane:
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
-###Get the node-token 
+Get the node-token 
 ```
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
-###To add additional control plane nodes, run:
+To add additional control plane nodes, run:
 ```
 curl -sfL https://get.k3s.io | \
   K3S_URL=https://<existing-server-ip>:6443 \
@@ -19,7 +19,7 @@ curl -sfL https://get.k3s.io | \
   sh -
 
 ```
-###To add worker nodes, run:
+To add worker nodes, run:
 ```
 curl -sfL https://get.k3s.io | \
   K3S_URL=https://<server-ip>:6443 \
