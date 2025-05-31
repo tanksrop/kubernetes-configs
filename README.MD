@@ -10,7 +10,7 @@ kubectl create secret generic bitwarden-cli \
   --from-literal=BW_CLIENTSECRET='your-client-secret' \
   --from-literal=BW_PASSWORD='your-bitwarden-password' \
   --from-literal=BW_HOST='https://bitwarden.com' \
-  -n your-namespace
+  -n external-secrets
 ```
 
 ## argocd setup
