@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  namespace: default
+  name: media-k8s.tanksrop.xyz
+spec:
+  secretName: media-k8s.tanksrop.xyz
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  commonName: '*.k8s.tanksrop.xyz'
+  dnsNames:
+  - '*.k8s.tanksrop.xyz'
