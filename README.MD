@@ -2,15 +2,15 @@
 
 ## k3s setup
 
-###install initial k3s control plane:
+install initial k3s control plane:
 ```
 curl -sfL https://get.k3s.io | sh -
 ```
-###Get the node-token 
+Get the node-token 
 ```
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
-###To add additional control plane nodes, run:
+To add additional control plane nodes, run:
 ```
 curl -sfL https://get.k3s.io | \
   K3S_URL=https://<existing-server-ip>:6443 \
@@ -19,7 +19,7 @@ curl -sfL https://get.k3s.io | \
   sh -
 
 ```
-###To add worker nodes, run:
+To add worker nodes, run:
 ```
 curl -sfL https://get.k3s.io | \
   K3S_URL=https://<server-ip>:6443 \
@@ -64,7 +64,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-Open https://localhost:8080 in your browser.
+Open https://<a node ip>:8080 in your browser.
 
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo
