@@ -4,11 +4,12 @@ metadata:
   name: jellyfin-ingress
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/service.scheme: http
 spec:
   tls:
     - hosts:
         - jellyfin.k8s.tanksrop.xyz
-      secretName: media-k8s.tanksrop.xyz  # Reference the existing wildcard cert
+      secretName: media-k8s.tanksrop.xyz
   rules:
     - host: jellyfin.k8s.tanksrop.xyz
       http:
