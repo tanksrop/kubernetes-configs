@@ -8,7 +8,7 @@ spec:
   tls:
     - hosts:
         - jellyfin.k8s.tanksrop.xyz
-      secretName: k8s.tanksrop.xyz  # Reference the existing wildcard cert
+      secretName: k8s.tanksrop.xyz-media  # Reference the existing wildcard cert
   rules:
     - host: jellyfin.k8s.tanksrop.xyz
       http:
