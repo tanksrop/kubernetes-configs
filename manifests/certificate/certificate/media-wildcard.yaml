@@ -4,7 +4,7 @@ metadata:
   namespace: media
   name: media-k8s.tanksrop.xyz
 spec:
-  secretName: k8s.tanksrop.xyz
+  secretName: media-k8s.tanksrop.xyz
   issuerRef:
     name: letsencrypt-dns
     kind: ClusterIssuer
