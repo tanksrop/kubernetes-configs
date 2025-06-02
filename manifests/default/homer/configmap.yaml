@@ -116,6 +116,10 @@ data:
             tag: "app"
             url: "http://jellyfin.tanksrop.xyz"
             target: "_blank" # optional html a tag target attribute
+          - name: "Wizarr"
+            logo: "https://raw.githubusercontent.com/NX211/homer-icons/refs/heads/master/png/wizarr.png"
+            subtitle: "User Management"
+            tag: "app"
           - name: "Radarr"
             logo: "https://raw.githubusercontent.com/NX211/homer-icons/refs/heads/master/png/radarr.png"
             subtitle: "Movie downloader"
