@@ -3,10 +3,15 @@ kind: Ingress
 metadata:
   name: wizarr-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/service.scheme: http
 spec:
+  tls:
+    - hosts:
+        - wizarr.tanksrop.xyz
+      secretName: tanksrop.xyz
   rules:
-  - host: wizarr.local.tanksrop.xyz
+  - host: wizarr.tanksrop.xyz
     http:
       paths:
       - path: /
@@ -15,4 +20,4 @@ spec:
           service:
             name: wizarr
             port:
-              number: 5690
+              number: 80
