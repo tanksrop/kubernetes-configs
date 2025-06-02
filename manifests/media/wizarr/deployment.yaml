@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wizarr
+  labels:
+    app: wizarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wizarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wizarr
+    spec:
+      containers:
+      - name: wizarr
+        image: ghcr.io/wizarrrr/wizarr
+        ports:
+        - containerPort: 5690
+        env:
+        - name: DISABLE_BUILTIN_AUTH
+          value: "false"
+        - name: TZ
+          value: "Europe/London"
+        volumeMounts:
+        - name: storage
+          mountPath: /data/database
+          subPath: wizarr/database
+        - name: storage
+          mountPath: /data/wizard_steps
+          subPath: wizarr/config
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs
