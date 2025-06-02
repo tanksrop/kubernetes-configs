@@ -119,6 +119,8 @@ data:
           - name: "Wizarr"
             logo: "https://raw.githubusercontent.com/NX211/homer-icons/refs/heads/master/png/wizarr.png"
             subtitle: "User Management"
+            url: "http://wizarr.tanksrop.xyz"
+            target: "_blank" # optional html a tag target attribute
             tag: "app"
           - name: "Radarr"
             logo: "https://raw.githubusercontent.com/NX211/homer-icons/refs/heads/master/png/radarr.png"
