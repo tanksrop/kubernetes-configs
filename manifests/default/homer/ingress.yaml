@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - homer.k8s.tanksrop.xyz
-      secretName: default-k8s.tanksrop.xyz
+        - homer.tanksrop.xyz
+      secretName: tanksrop.xyz
   rules:
-  - host: homer.k8s.tanksrop.xyz
+  - host: homer.tanksrop.xyz
     http:
       paths:
       - path: /
