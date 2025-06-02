@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: radarr.k8s.tanksrop.xyz
+  - host: radarr.local.tanksrop.xyz
     http:
       paths:
       - path: /

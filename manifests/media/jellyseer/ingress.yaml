@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - jellyseerr.k8s.tanksrop.xyz
-      secretName: media-k8s.tanksrop.xyz
+        - jellyseerr.tanksrop.xyz
+      secretName: tanksrop.xyz
   rules:
-  - host: jellyseerr.k8s.tanksrop.xyz
+  - host: jellyseerr.tanksrop.xyz
     http:
       paths:
       - path: /
