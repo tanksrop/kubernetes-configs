@@ -142,6 +142,11 @@ data:
             subtitle: "Torrent Indexer"
             tag: "app"
             url: "http://prowlarr.local.tanksrop.xyz"
+          - name: "huntarr"
+            logo: "https://repository-images.githubusercontent.com/957479421/c936ef9e-79f0-4719-a42c-4a763cf43f76"
+            subtitle: "Auto search for radarr and sonarr"
+            tag: "app"
+            url: "http://prowlarr.local.tanksrop.xyz"
       - name: "Management"
         icon: "fas fa-cloud"
         items:
