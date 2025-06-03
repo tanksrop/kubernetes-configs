@@ -27,6 +27,7 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /config
+          subPath: huntarr
       volumes:
       - name: config-volume
         persistentVolumeClaim:
