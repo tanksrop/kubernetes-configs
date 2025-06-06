@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sabnzbd
+  labels:
+    app: sabnzbd
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sabnzbd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+    spec:
+      containers:
+      - image: lscr.io/linuxserver/sabnzbd:latest
+        name: sabnzbd
+        env:
+        - name: PUID
+          value: "1000"             # Replace with your user ID
+        - name: PGID
+          value: "1000"             # Replace with your group ID
+        - name: TZ
+          value: "Europe/London"    # Replace with your timezone
+        volumeMounts:
+        - name: config
+          mountPath: /config
+          subPath: sabnzbd/config
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: media-nfs
