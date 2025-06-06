@@ -47,6 +47,9 @@ spec:
         - name: storage
           mountPath: /data
           subPath: transmission/downloads
+        - name: storage
+          mountPath: /downloads
+          subPath: sabnzbd/config/Downloads
         ports:
         - containerPort: 7878
         resources:
