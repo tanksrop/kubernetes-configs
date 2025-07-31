@@ -8,5 +8,5 @@ spec:
   resources:
     requests:
       storage: 2Ti
-  volumeName: shared-nfs-pv
+  volumeName: shared-nfs-pv2
   storageClassName: nfs-client
