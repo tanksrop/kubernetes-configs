@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-ngx
+  labels:
+    app: paperless-ngx
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paperless-ngx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: paperless-ngx
+    spec:
+      containers:
+      - name: paperless-ngx
+        image: ghcr.io/paperless-ngx/paperless-ngx:latest
+        env:
+        - name: PAPERLESS_DBENGINE
+          value: "postgresql"
+        - name: POSTGRES_HOST
+          value: "192.168.0.81"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: "paperless-ngx_user"
+        - name: POSTGRES_PASSWORD
+          value: "paperless"
+        - name: POSTGRES_DB
+          value: "paperless-ngx"       # Change to your paperless DB name
+        - name: PAPERLESS_REDIS
+          value: "redis://redis:6379"
+        - name: USE_X_FORWARDED_HOST
+          value: "True"
+        - name: PAPERLESS_ALLOWED_HOSTS
+          value: "localhost,paperless.tanksrop.xyz"
+        - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
+          value: "https://paperless.tanksrop.xyz"
+
+
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: storage
+          mountPath: /usr/src/paperless/media
+          subPath: paperless-ngx/media
+        - name: storage
+          mountPath: /usr/src/paperless/data
+          subPath: paperless-ngx/data
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2048Mi
+            ephemeral-storage: 64Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: media-nfs  # Same PVC as your Sonarr example
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
