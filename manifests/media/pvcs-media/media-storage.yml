@@ -7,6 +7,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 8Ti
+      storage: 6Ti
   volumeName: shared-nfs-pv
   storageClassName: nfs-client

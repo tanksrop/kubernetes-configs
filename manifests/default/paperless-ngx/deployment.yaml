@@ -63,7 +63,7 @@ spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: default-storage  # Same PVC as your Sonarr example
+          claimName: default-storage  
 ---
 apiVersion: apps/v1
 kind: Deployment
