@@ -63,7 +63,7 @@ spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: media-nfs  # Same PVC as your Sonarr example
+          claimName: default-storage  # Same PVC as your Sonarr example
 ---
 apiVersion: apps/v1
 kind: Deployment
