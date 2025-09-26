@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: paperless-ngx
-        image: ghcr.io/paperless-ngx/paperless-ngx:latest
+        image: ghcr.io/paperless-ngx/paperless-ngx:2.18
         env:
         - name: PAPERLESS_DBENGINE
           value: "postgresql"
