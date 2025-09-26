@@ -13,7 +13,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: docker.io/fredrikburmester/streamystats-v2-migrate:v2.4.0
+          image: docker.io/fredrikburmester/streamystats-v2-migrate:8f8eb01752d678a5c34276da2470832c25d181ea
           env:
             - name: DATABASE_URL
               value: "postgresql://postgres:postgres@vectorchord:5432/streamystats"
@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
         - name: nextjs-app
-          image: docker.io/fredrikburmester/streamystats-v2-nextjs:v2.4.0
+          image: docker.io/fredrikburmester/streamystats-v2-nextjs:8f8eb01752d678a5c34276da2470832c25d181ea
           env:
             - name: NODE_ENV
               value: "production"
@@ -98,7 +98,7 @@ spec:
     spec:
       containers:
         - name: job-server
-          image: docker.io/fredrikburmester/streamystats-v2-job-server:v2.4.0
+          image: docker.io/fredrikburmester/streamystats-v2-job-server:8f8eb01752d678a5c34276da2470832c25d181ea
           env:
             - name: NODE_ENV
               value: "production"
