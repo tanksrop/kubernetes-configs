@@ -1,0 +1,187 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  labels:
+    app: migrate
+spec:
+  template:
+    metadata:
+      labels:
+        app: migrate
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: docker.io/fredrikburmester/streamystats-v2-migrate:2.0.0
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@vectorchord:5432/streamystats"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "streamystats"
+            - name: PGPASSWORD
+              value: "postgres"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-app
+  labels:
+    app: nextjs-app
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nextjs-app
+  template:
+    metadata:
+      labels:
+        app: nextjs-app
+    spec:
+      containers:
+        - name: nextjs-app
+          image: docker.io/fredrikburmester/streamystats-v2-nextjs:2.0.0
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@vectorchord:5432/streamystats"
+            - name: JOB_SERVER_URL
+              value: "http://job-server:3005"
+            - name: HOSTNAME
+              value: "0.0.0.0"
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2048Mi
+            requests:
+              cpu: 150m
+              memory: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-server
+  labels:
+    app: job-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: job-server
+  template:
+    metadata:
+      labels:
+        app: job-server
+    spec:
+      containers:
+        - name: job-server
+          image: docker.io/fredrikburmester/streamystats-v2-job-server:2.0.0
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@vectorchord:5432/streamystats"
+            - name: PORT
+              value: "3005"
+            - name: HOST
+              value: "0.0.0.0"
+          ports:
+            - containerPort: 3005
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2048Mi
+            requests:
+              cpu: 150m
+              memory: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vectorchord
+  labels:
+    app: vectorchord
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vectorchord
+  template:
+    metadata:
+      labels:
+        app: vectorchord
+    spec:
+      containers:
+        - name: vectorchord
+          image: tensorchord/vchord-postgres:pg17-v0.4.1
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "streamystats"
+          ports:
+            - containerPort: 5432
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+                - -d
+                - streamystats
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2048Mi
+            requests:
+              cpu: 150m
+              memory: 256Mi
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/postgresql/data
+              subPath: streamystats/data
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: media-nfs
