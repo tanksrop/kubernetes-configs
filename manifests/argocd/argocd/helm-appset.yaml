@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: homelab-helm
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/tanksrop/kubernetes-configs.git
+        revision: HEAD
+        files:
+          - path: helm/*/*/values.yaml
+  template:
+    metadata:
+      name: '{{.path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: '{{.repoURL}}'
+        chart: '{{.chart}}'
+        targetRevision: '{{.targetRevision}}'
+        helm:
+          valuesFile: values.yaml
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: '{{index .path.segments 1}}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          allowEmpty: true
+          prune: true
+          selfHeal: true
