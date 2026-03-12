@@ -9,7 +9,7 @@ spec:
   goTemplate: true
   generators:
     - git:
-        repoURL: https://github.com/tanksrop/kubernetes-configs.git
+        repoURL: https://github.com/tanksrop/kubernetes-configs
         revision: HEAD
         files:
           - path: helm/*/*/config.json
@@ -25,7 +25,7 @@ spec:
           helm:
             valueFiles:
               - $values/helm/{{index .path.segments 1}}/{{index .path.segments 2}}/values.yaml
-        - repoURL: https://github.com/tanksrop/kubernetes-configs.git
+        - repoURL: https://github.com/tanksrop/kubernetes-configs
           targetRevision: HEAD
           ref: values
       destination:
