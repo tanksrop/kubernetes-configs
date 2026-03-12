@@ -9,3 +9,7 @@ postgresql:
     password: "changeme-local-only"
     username: "authentik"
     database: "authentik"
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: authentik-postgresql-nfs
