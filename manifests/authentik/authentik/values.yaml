@@ -1,8 +1,11 @@
 authentik:
   secret_key: "changeme-local-only"
+  postgresql:
+    password: "changeme-local-only"
 
 postgresql:
   enabled: true
-
-redis:
-  enabled: true
+  auth:
+    password: "changeme-local-only"
+    username: "authentik"
+    database: "authentik"
