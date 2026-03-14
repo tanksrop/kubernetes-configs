@@ -1,0 +1,23 @@
+authentik:
+  secret_key: "${SECRET_KEY}"
+  error_reporting:
+    enabled: false
+
+existingSecret: authentik-secrets
+
+server:
+  ingress:
+    enabled: false
+
+postgresql:
+  enabled: true
+  auth:
+    username: authentik
+    database: authentik
+    existingSecret: authentik-secrets
+    secretKeys:
+      adminPasswordKey: postgresql-password
+      userPasswordKey: postgresql-password
+
+redis:
+  enabled: false
