@@ -1,8 +1,9 @@
 authentik:
-  secret_key: ""  # leave empty, use existingSecret instead
+  secret_key: ""
   error_reporting:
     enabled: false
 existingSecret: authentik-secrets
+existingSecretKey: secret_key
 server:
   ingress:
     enabled: false
