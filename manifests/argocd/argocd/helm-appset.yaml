@@ -28,6 +28,11 @@ spec:
         - repoURL: https://github.com/tanksrop/kubernetes-configs.git
           targetRevision: HEAD
           ref: values
+        - repoURL: https://github.com/tanksrop/kubernetes-configs.git
+          targetRevision: HEAD
+          path: manifests/{{index .path.segments 1}}/{{index .path.segments 2}}
+          directory:
+            exclude: '{config.json,values.yaml}'
       destination:
         server: "https://kubernetes.default.svc"
         namespace: '{{index .path.segments 1}}'
