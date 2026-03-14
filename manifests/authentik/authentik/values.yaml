@@ -1,14 +1,11 @@
 authentik:
-  secret_key: "${SECRET_KEY}"
+  secret_key: ""  # leave empty, use existingSecret instead
   error_reporting:
     enabled: false
-
 existingSecret: authentik-secrets
-
 server:
   ingress:
     enabled: false
-
 postgresql:
   enabled: true
   auth:
@@ -18,6 +15,5 @@ postgresql:
     secretKeys:
       adminPasswordKey: postgresql-password
       userPasswordKey: postgresql-password
-
 redis:
   enabled: false
