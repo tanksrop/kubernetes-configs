@@ -8,6 +8,24 @@ authentik:
 server:
   ingress:
     enabled: false
+  volumes:
+    - name: authentik-storage
+      persistentVolumeClaim:
+        claimName: authentik-nfs
+  volumeMounts:
+    - name: authentik-storage
+      mountPath: /data/media
+      subPath: authentik/media
+
+worker:
+  volumes:
+    - name: authentik-storage
+      persistentVolumeClaim:
+        claimName: authentik-nfs
+  volumeMounts:
+    - name: authentik-storage
+      mountPath: /data/media
+      subPath: authentik/media
 
 postgresql:
   enabled: true
@@ -18,6 +36,11 @@ postgresql:
     secretKeys:
       adminPasswordKey: "postgres-password"
       userPasswordKey: "postgres-password"
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: "authentik-nfs"
+      subPath: authentik/postgresql
 
 global:
   env:
