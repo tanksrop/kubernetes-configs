@@ -9,5 +9,5 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  volumeName: shared-nfs-pv
+  volumeName: shared-nfs-pv3
   storageClassName: nfs-client
