@@ -18,7 +18,7 @@ spec:
         app: jellyseerr
     spec:
       containers:
-      - image: seerr/seerr:sha-198e4e5
+      - image: seerr/seerr:v3.2.0
         name: jellyseerr
         env:
         - name: LOG_LEVEL
